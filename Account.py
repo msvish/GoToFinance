@@ -5,7 +5,30 @@ class Account:
         self.menu()
         
     def credit(self,creditAmount):
-        pass
+        amount=list(map(str,creditAmount.split(" ")))
+        if len(amount)==2:
+            dollarAmt=int(amount[0][:-1])
+            centAmt=int(amount[1][:-1])
+            self.dollar+=dollarAmt
+            if(centAmt<0):
+                self.cents=(self.cents+100)+centAmt
+                self.dollar-=1
+            else:
+                self.cents+=centAmt
+        else:
+            if(amount[0][-1]=="D"):
+                dollarAmt=int(amount[0][:-1])
+                self.dollar+=dollarAmt
+            else:
+                centAmt=int(amount[0][:-1])
+                if(centAmt<0):
+                    self.cents=(self.cents+100)+centAmt
+                    self.dollar-=1
+                else:
+                    self.cents+=centAmt
+        if(self.cents>=100):
+            self.cents-=100
+            self.dollar+=1 
     
     def debit(self,debitAmount):
         pass
