@@ -31,7 +31,35 @@ class Account:
             self.dollar+=1 
     
     def debit(self,debitAmount):
-        pass
+        amount=list(map(str,debitAmount.split(" ")))
+        if len(amount)==2:
+            dollarAmt=int(amount[0][:-1])
+            centAmt=int(amount[1][:-1])
+            self.dollar-=dollarAmt
+            if(self.cents<centAmt):
+                self.cents=(self.cents+100)-centAmt
+                self.dollar-=1
+            else:
+                self.cents-=centAmt
+        else:
+            if(amount[0][-1]=="D"):
+                dollarAmt=int(amount[0][:-1])
+                self.dollar-=dollarAmt
+            else:
+                centAmt=int(amount[0][:-1])
+                if(self.cents<centAmt and self.dollar!=0):
+                    self.cents=(self.cents+100)-centAmt
+                    self.dollar-=1
+                elif(self.cents<centAmt and self.dollar==0):
+                    self.cents=self.cents-centAmt
+                    if self.cents<=-100:
+                        self.cents+=100
+                        self.dollar-=1
+                else:
+                    self.cents-=centAmt
+        if(self.cents>=100):
+            self.cents-=100
+            self.dollar+=1 
     
     def checkBalance(self):
         print("Balance:\t"+"{}D {}C".format(self.dollar,self.cents))
